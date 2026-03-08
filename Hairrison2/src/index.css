@@ -1,0 +1,140 @@
+/* ── Design Tokens ─────────────────────────────────────── */
+:root {
+  --color-bg: #041e35;
+  --color-surface: #062444;
+  --color-surface-2: #083058;
+  --color-surface-3: #0a3a6b;
+  --color-border: rgba(0, 212, 170, 0.15);
+  --color-border-light: rgba(0, 212, 170, 0.3);
+
+  --color-text: #e8f4fc;
+  --color-text-2: #b0d4e8;
+  --color-text-muted: #7ba8c4;
+
+  --color-accent: #00d4aa;
+  --color-accent-hover: #00b894;
+  --color-accent-dark: #008a72;
+  --color-accent-glow: rgba(0, 212, 170, 0.2);
+
+  --color-white: #e8f4fc;
+  --color-black: #041e35;
+
+  --wave-teal: rgba(0, 212, 170, 0.08);
+  --wave-blue: rgba(0, 150, 200, 0.06);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Cormorant Garamond', 'Times New Roman', serif;
+
+  --nav-height: 72px;
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-elevated: 0 4px 24px rgba(0,0,0,0.8), 0 1px 4px rgba(0,0,0,0.5);
+  --shadow-accent: 0 0 32px rgba(0, 212, 170, 0.25);
+
+  --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+p { line-height: 1.7; color: var(--color-text-2); }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: var(--font-body); cursor: pointer; }
+
+/* ── Wave background ────────────────────────────────────── */
+.wave-bg {
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px, transparent 30px,
+      var(--wave-teal) 30px, var(--wave-teal) 31px,
+      transparent 31px, transparent 62px,
+      var(--wave-blue) 62px, var(--wave-blue) 64px,
+      transparent 64px, transparent 94px,
+      var(--wave-teal) 94px, var(--wave-teal) 95px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 30px,
+      var(--wave-blue) 30px, var(--wave-blue) 31px,
+      transparent 31px, transparent 62px,
+      var(--wave-teal) 62px, var(--wave-teal) 64px,
+      transparent 64px, transparent 94px,
+      var(--wave-blue) 94px, var(--wave-blue) 95px
+    ),
+    repeating-linear-gradient(
+      160deg,
+      transparent 0px, transparent 50px,
+      rgba(0, 180, 160, 0.04) 50px, rgba(0, 180, 160, 0.04) 51px,
+      transparent 51px, transparent 100px
+    );
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-surface-3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+/* ── Animations ─────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -800px 0; }
+  100% { background-position:  800px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--color-surface-2) 0px,
+    var(--color-surface-3) 200px,
+    var(--color-surface-2) 400px
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.5s ease forwards; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
