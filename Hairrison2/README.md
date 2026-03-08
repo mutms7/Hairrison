@@ -101,7 +101,7 @@ npm run dev
 
 ## 👥 Team
 
-Built for [Hackathon Name] · March 2026
+Built for Hack Canada 2026 · March 2026
 
 ---
 
