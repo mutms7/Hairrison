@@ -1,5 +1,5 @@
 # Hairrison — AI Hair Try-On 💇‍♀️
-### Built by William Chenyin for Hack Canada 2026 🇨🇦
+### Built by William Chenyin for Hack Canada 2026
 
 > Try the haircut before the haircut.
 
