@@ -3,6 +3,8 @@
 
 > Try the haircut before the haircut.
 
+🎥 **Demo Video:** [Watch on YouTube](https://youtu.be/vljrvV9sbSA)
+
 Hairrison is an AI-powered hairstyle preview app that helps users see different hairstyles on their own photo before making a real change.
 
 Built around the idea of **hair comparison**, the app makes hairstyle exploration fast, low-pressure, and fun.
