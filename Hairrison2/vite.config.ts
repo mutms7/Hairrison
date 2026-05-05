@@ -9,4 +9,12 @@ export default defineConfig({
     'process.env.CLOUDINARY_SOURCE': '"cli"',
     'process.env.CLD_CLI': '"true"',
   },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    minify: 'terser',
+  },
+  server: {
+    open: true,
+  },
 })

@@ -3,6 +3,7 @@
   "buildCommand": "cd Hairrison2 && npm run build",
   "devCommand": "cd Hairrison2 && npm run dev",
   "installCommand": "npm install && cd Hairrison2 && npm install",
+  "outputDirectory": "Hairrison2/dist",
   "framework": "vite",
   "projectSettings": {
     "framework": "vite",
