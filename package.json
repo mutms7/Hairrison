@@ -3,10 +3,10 @@
   "private": true,
   "description": "AI-powered hair try-on visualization tool",
   "scripts": {
-    "dev": "cd Hairrison2 && npm run dev",
-    "build": "cd Hairrison2 && npm run build",
-    "preview": "cd Hairrison2 && npm run preview",
-    "lint": "cd Hairrison2 && npm run lint"
+    "dev": "cd Hairrison && npm run dev",
+    "build": "cd Hairrison && npm run build",
+    "preview": "cd Hairrison && npm run preview",
+    "lint": "cd Hairrison && npm run lint"
   },
   "dependencies": {
     "cloudinary": "^2.9.0"
