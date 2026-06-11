@@ -1,14 +1,15 @@
 {
   "name": "hairrison",
   "private": true,
-  "description": "AI-powered hair try-on visualization tool",
+  "description": "AI-powered hair try-on — v2 (Hairrison Studio) with one free look and a $0.99 unlimited unlock",
   "scripts": {
-    "dev": "cd Hairrison && npm run dev",
-    "build": "cd Hairrison && npm run build",
-    "preview": "cd Hairrison && npm run preview",
-    "lint": "cd Hairrison && npm run lint"
+    "dev": "npm --prefix v2 run dev",
+    "build": "npm --prefix v2 run build",
+    "preview": "npm --prefix v2 run preview",
+    "dev:v1": "npm --prefix Hairrison run dev",
+    "build:v1": "npm --prefix Hairrison run build"
   },
   "dependencies": {
-    "cloudinary": "^2.9.0"
+    "stripe": "^17.0.0"
   }
 }

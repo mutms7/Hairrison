@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "npm --prefix Hairrison run build",
-  "devCommand": "npm --prefix Hairrison run dev",
-  "installCommand": "npm install --prefix Hairrison",
-  "outputDirectory": "Hairrison/dist"
+  "buildCommand": "npm --prefix v2 run build",
+  "devCommand": "npm --prefix v2 run dev",
+  "installCommand": "npm install && npm install --prefix v2",
+  "outputDirectory": "v2/dist"
 }
