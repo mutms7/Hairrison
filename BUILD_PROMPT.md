@@ -23,8 +23,8 @@ haircut before the haircut" — but ship it like a real app, not a hack-weekend 
 3. **Multi-look Compare** — queue up to 3 looks and generate them side by side.
 4. **Session History** — every generated look saved locally, one tap to restore.
 5. **Monetization** — first generation is free for everyone. Unlimited access is
-   a **$0.99 one-time payment** via Stripe Checkout:
-   - `api/checkout.ts` → creates a Checkout Session (mode: payment, $0.99 CAD/USD)
+   a **$1.99 one-time payment** via Stripe Checkout:
+   - `api/checkout.ts` → creates a Checkout Session (mode: payment, $1.99 CAD/USD)
    - `api/verify.ts` → verifies the paid session, mints an HMAC-signed license
    - `api/webhook.ts` → records `checkout.session.completed` events
    - License stored client-side; free credit tracked in localStorage
@@ -51,7 +51,7 @@ frames with thin brass rules; salon-mirror framing on imagery.
 ## Honest limitations (documented, not hidden)
 
 - Generation happens client-side via Cloudinary URLs, so the paywall is a product
-  gate, not a security boundary. Acceptable at $0.99; noted in README.
+  gate, not a security boundary. Acceptable at $1.99; noted in README.
 - Free-credit tracking is per-browser (localStorage).
 
 ## Definition of done

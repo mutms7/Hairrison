@@ -13,7 +13,7 @@ export function Hero({ onStart }: HeroProps) {
       </h1>
       <p className="hero-sub">
         Upload a selfie, pick a look, and see yourself in it — powered by Cloudinary
-        generative AI. Your first look is free. Unlimited looks are 99¢, once, forever.
+        generative AI. Your first look is free. Unlimited looks are $1.99, once, forever.
       </p>
       <div className="hero-actions">
         <button className="btn btn-primary" onClick={onStart}>

@@ -1,6 +1,6 @@
 /**
  * POST /api/checkout
- * Creates a Stripe Checkout Session for the one-time $0.99 unlimited unlock.
+ * Creates a Stripe Checkout Session for the one-time $1.99 unlimited unlock.
  *
  * Env required:
  *   STRIPE_SECRET_KEY  — sk_live_... or sk_test_...
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         {
           price_data: {
             currency: 'usd',
-            unit_amount: 99, // $0.99 one-time
+            unit_amount: 199, // $1.99 one-time
             product_data: {
               name: 'Hairrison Studio — Unlimited Looks',
               description:

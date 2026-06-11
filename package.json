@@ -1,7 +1,7 @@
 {
   "name": "hairrison",
   "private": true,
-  "description": "AI-powered hair try-on — v2 (Hairrison Studio) with one free look and a $0.99 unlimited unlock",
+  "description": "AI-powered hair try-on — v2 (Hairrison Studio) with one free look and a $1.99 unlimited unlock",
   "scripts": {
     "dev": "npm --prefix v2 run dev",
     "build": "npm --prefix v2 run build",

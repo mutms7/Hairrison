@@ -160,7 +160,7 @@ export function Studio({ onHistoryChange }: Props) {
         <p className="studio-credits">
           {hasUnlimited()
             ? 'Studio member · unlimited looks'
-            : `${freeCreditsRemaining()} free generation left · unlimited for $0.99`}
+            : `${freeCreditsRemaining()} free generation left · unlimited for $1.99`}
         </p>
       </div>
 

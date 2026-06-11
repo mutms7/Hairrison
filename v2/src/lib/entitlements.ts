@@ -1,9 +1,9 @@
 /**
  * Entitlements — every visitor gets ONE free generation.
- * Unlimited access is a $0.99 one-time purchase via Stripe Checkout.
+ * Unlimited access is a $1.99 one-time purchase via Stripe Checkout.
  *
  * Honest note: generation runs client-side through Cloudinary URLs, so this
- * gate is a product boundary, not a security boundary. At $0.99 that's the
+ * gate is a product boundary, not a security boundary. At $1.99 that's the
  * right trade-off for simplicity.
  */
 

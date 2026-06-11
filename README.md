@@ -20,7 +20,7 @@ AI hairstyle preview, rebuilt as a real product. Upload a selfie, compose a look
 
 ## Pricing
 
-Your **first generation is free** — no account, no card. Unlimited looks are a **one-time $0.99 unlock** via Stripe Checkout. No subscription, ever. Stripe emails your receipt at checkout; support: chenyinwilliam@gmail.com.
+Your **first generation is free** — no account, no card. Unlimited looks are a **one-time $1.99 unlock** via Stripe Checkout. No subscription, ever. Stripe emails your receipt at checkout; support: chenyinwilliam@gmail.com.
 
 ---
 
@@ -29,7 +29,7 @@ Your **first generation is free** — no account, no card. Unlimited looks are a
 ```
 ├── v2/          Vite + React 19 + TypeScript (the app)
 ├── api/         Vercel serverless functions (Stripe)
-│   ├── checkout.js   POST  → creates $0.99 Checkout Session
+│   ├── checkout.js   POST  → creates $1.99 Checkout Session
 │   ├── verify.js     GET   → verifies payment, mints HMAC-signed license
 │   └── webhook.js    POST  → records checkout.session.completed
 └── Hairrison/   v1 (Hack Canada 2026 original, preserved)
@@ -45,7 +45,7 @@ cld.image(publicId)
 
 **Entitlements** — free credit + license live in `localStorage`; licenses are HMAC-signed server-side (`LICENSE_SECRET`) and verified after Stripe redirects back with `session_id`.
 
-> **Honest limitation:** generation runs client-side through Cloudinary URLs, so the paywall is a product gate, not a security boundary. At $0.99 that's the right trade-off.
+> **Honest limitation:** generation runs client-side through Cloudinary URLs, so the paywall is a product gate, not a security boundary. At $1.99 that's the right trade-off.
 
 ---
 
