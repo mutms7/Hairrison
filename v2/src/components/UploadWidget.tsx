@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { uploadPreset } from '../lib/cloudinary';
+import { isCloudinaryConfigured, uploadPreset } from '../lib/cloudinary';
 import type { CloudinaryUploadResult } from '../lib/cloudinary';
+
+// Unsigned uploads need both a cloud name and an upload preset. Without
+// either, the Cloudinary widget is created but `.open()` silently no-ops,
+// which looks like a dead button. Detect that up front instead.
+const isConfigured = isCloudinaryConfigured && Boolean(uploadPreset);
 
 interface WidgetResult {
   event: string;
@@ -26,9 +31,12 @@ interface Props {
 
 export function UploadWidget({ onSuccess, onError, label = 'Upload your photo' }: Props) {
   const widgetRef = useRef<{ open: () => void } | null>(null);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
+  const [status, setStatus] = useState<'loading' | 'ready' | 'failed' | 'unconfigured'>(
+    isConfigured ? 'loading' : 'unconfigured'
+  );
 
   useEffect(() => {
+    if (!isConfigured) return;
     let mounted = true;
     const ready = () => typeof window.cloudinary?.createUploadWidget === 'function';
 
@@ -79,6 +87,16 @@ export function UploadWidget({ onSuccess, onError, label = 'Upload your photo' }
       clearTimeout(timeout);
     };
   }, [onSuccess, onError]);
+
+  if (status === 'unconfigured') {
+    return (
+      <p className="error-text">
+        Photo upload isn't configured. Set <code>VITE_CLOUDINARY_CLOUD_NAME</code> and{' '}
+        <code>VITE_CLOUDINARY_UPLOAD_PRESET</code> (an unsigned preset) in <code>v2/.env</code>,
+        then restart the dev server.
+      </p>
+    );
+  }
 
   if (status === 'failed') {
     return <p className="error-text">The upload tool didn't load. Refresh the page to try again.</p>;
