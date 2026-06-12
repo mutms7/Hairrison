@@ -35,7 +35,7 @@ export default function App() {
 
       {purchaseState === 'success' && (
         <div className="banner banner-success">
-          Payment confirmed — unlimited looks are yours. A receipt is on its way to your email.
+          Payment confirmed. Unlimited looks are yours, and a receipt is on its way to your email.
         </div>
       )}
       {purchaseState === 'failed' && (

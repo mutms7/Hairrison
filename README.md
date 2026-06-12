@@ -2,25 +2,25 @@
 
 > **Try the haircut before the haircut.**
 
-AI hairstyle preview, rebuilt as a real product. Upload a selfie, compose a look, and see yourself in it — in a salon mirror — before you commit.
+AI hairstyle preview, rebuilt as a real product. Upload a selfie, compose a look, and see yourself in it (in a salon mirror) before you commit.
 
 🎥 **v1 Demo Video:** [Watch on YouTube](https://youtu.be/vljrvV9sbSA)
-🏆 Originally built by William Chenyin for Hack Canada 2026. This repo now contains **v2 ("Hairrison Studio")**, a ground-up rebuild — the original hackathon app is preserved in [`Hairrison/`](./Hairrison).
+🏆 Originally built by William Chenyin for Hack Canada 2026. This repo now contains **v2 ("Hairrison Studio")**, a ground-up rebuild. The original hackathon app is preserved in [`Hairrison/`](./Hairrison).
 
 ---
 
 ## What it does
 
 1. **Upload a selfie** via the Cloudinary Upload Widget
-2. **Compose a look** — pick from 27 curated presets, build a prompt from chips (length / texture / color / vibe), or write your own
-3. **Generate** — Cloudinary Generative Replace swaps your hair for the described style
-4. **Mirror Compare** — drag the salon-mirror slider to sweep between before and after
+2. **Compose a look**: pick from 27 curated presets, build a prompt from chips (length / texture / color / vibe), or write your own
+3. **Generate**: Cloudinary Generative Replace swaps your hair for the described style
+4. **Mirror Compare**: drag the salon-mirror slider to sweep between before and after
 5. **Queue up to 3 looks** and compare them side by side
 6. **Download** the result, or restore any look from your session history
 
 ## Pricing
 
-Your **first generation is free** — no account, no card. Unlimited looks are a **one-time $1.99 unlock** via Stripe Checkout. No subscription, ever. Stripe emails your receipt at checkout; support: chenyinwilliam@gmail.com.
+Your **first generation is free**, no account, no card. Unlimited looks are a **one-time $1.99 unlock** via Stripe Checkout. No subscription, ever. Stripe emails your receipt at checkout; support: chenyinwilliam@gmail.com.
 
 ---
 
@@ -35,7 +35,7 @@ Your **first generation is free** — no account, no card. Unlimited looks are a
 └── Hairrison/   v1 (Hack Canada 2026 original, preserved)
 ```
 
-**Core engine** — Cloudinary Generative Replace:
+**Core engine** (Cloudinary Generative Replace):
 
 ```ts
 cld.image(publicId)
@@ -43,7 +43,7 @@ cld.image(publicId)
   .toURL();
 ```
 
-**Entitlements** — free credit + license live in `localStorage`; licenses are HMAC-signed server-side (`LICENSE_SECRET`) and verified after Stripe redirects back with `session_id`.
+**Entitlements**: free credit + license live in `localStorage`; licenses are HMAC-signed server-side (`LICENSE_SECRET`) and verified after Stripe redirects back with `session_id`.
 
 > **Honest limitation:** generation runs client-side through Cloudinary URLs, so the paywall is a product gate, not a security boundary. At $1.99 that's the right trade-off.
 
@@ -81,7 +81,7 @@ npm --prefix v2 run dev        # app on :5173
 vercel dev                     # or run app + api together
 ```
 
-Deploy: `vercel` — the root `vercel.json` builds `v2/` and exposes `api/`.
+Deploy: `vercel` runs the root `vercel.json`, which builds `v2/` and exposes `api/`.
 
 ---
 
@@ -91,4 +91,4 @@ React 19 · TypeScript · Vite · Cloudinary Upload Widget + URL Gen SDK + Gener
 
 ## Design
 
-Backstage-editorial: espresso surfaces, brass rules, porcelain type — Bodoni Moda display over Outfit UI. One bold element (the mirror slider); everything else stays quiet.
+Backstage-editorial: espresso surfaces, brass rules, porcelain type, Bodoni Moda display over Outfit UI. One bold element (the mirror slider); everything else stays quiet.

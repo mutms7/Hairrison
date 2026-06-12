@@ -44,7 +44,7 @@ export function Paywall({ freeRemaining, unlimited, asModal = false, onClose }: 
           ? `${freeRemaining} free look remaining`
           : 'Your free look is used up'}
       </p>
-      <h3 className="paywall-title">Unlimited looks — $1.99, once.</h3>
+      <h3 className="paywall-title">Unlimited looks for $1.99, once.</h3>
       <p className="paywall-copy">
         One payment, no subscription. Generate as many hairstyles as you want, forever.
         Secure checkout by Stripe; your receipt is emailed to you.

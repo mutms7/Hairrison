@@ -1,12 +1,12 @@
 /**
  * POST /api/webhook
- * Stripe webhook — records completed checkouts. Optional but recommended:
+ * Stripe webhook: records completed checkouts. Optional but recommended:
  * gives you a server-side audit trail of every purchase even if the buyer
  * never returns to the success URL.
  *
  * Env required:
  *   STRIPE_SECRET_KEY
- *   STRIPE_WEBHOOK_SECRET — whsec_... from the Stripe dashboard webhook config
+ *   STRIPE_WEBHOOK_SECRET: whsec_... from the Stripe dashboard webhook config
  */
 import Stripe from 'stripe';
 

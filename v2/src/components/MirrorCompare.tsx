@@ -8,7 +8,7 @@ interface Props {
 }
 
 /**
- * MirrorCompare — draggable before/after reveal, framed like a salon mirror.
+ * MirrorCompare: draggable before/after reveal, framed like a salon mirror.
  */
 export function MirrorCompare({
   beforeUrl,

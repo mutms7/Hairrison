@@ -1,11 +1,11 @@
-# Build Prompt — Hairrison 2.0 ("Hairrison Studio")
+# Build Prompt: Hairrison 2.0 ("Hairrison Studio")
 
 > This is the spec Claude wrote for itself before rebuilding Hairrison from scratch.
 
 ## Mission
 
-Rebuild Hairrison as a polished, monetizable product. Keep the soul — "try the
-haircut before the haircut" — but ship it like a real app, not a hack-weekend demo.
+Rebuild Hairrison as a polished, monetizable product. Keep the soul ("try the
+haircut before the haircut") but ship it like a real app, not a hack-weekend demo.
 
 ## Core engine (carried forward from v1)
 
@@ -16,13 +16,13 @@ haircut before the haircut" — but ship it like a real app, not a hack-weekend 
 
 ## What v2 adds
 
-1. **Prompt Builder** — composable chips (length / texture / color / vibe) that
+1. **Prompt Builder**: composable chips (length / texture / color / vibe) that
    compile into a high-quality generative prompt, plus free-text mode.
-2. **Mirror Compare** — draggable before/after slider, framed like a salon mirror.
+2. **Mirror Compare**: draggable before/after slider, framed like a salon mirror.
    This is the signature UI element.
-3. **Multi-look Compare** — queue up to 3 looks and generate them side by side.
-4. **Session History** — every generated look saved locally, one tap to restore.
-5. **Monetization** — first generation is free for everyone. Unlimited access is
+3. **Multi-look Compare**: queue up to 3 looks and generate them side by side.
+4. **Session History**: every generated look saved locally, one tap to restore.
+5. **Monetization**: first generation is free for everyone. Unlimited access is
    a **$1.99 one-time payment** via Stripe Checkout:
    - `api/checkout.ts` → creates a Checkout Session (mode: payment, $1.99 CAD/USD)
    - `api/verify.ts` → verifies the paid session, mints an HMAC-signed license
@@ -34,7 +34,7 @@ haircut before the haircut" — but ship it like a real app, not a hack-weekend 
 ## Design direction
 
 Not the default dark-page-with-acid-accent and not the cream-and-terracotta
-template. Subject is a salon: go **backstage editorial** — deep espresso surfaces,
+template. Subject is a salon: go **backstage editorial**, deep espresso surfaces,
 brass/copper accent, porcelain text, a film-strip rail of looks. Type: Bodoni Moda
 (display, high-contrast fashion-masthead energy) + Outfit (body/UI). One bold
 element (the mirror slider), everything else quiet and disciplined. Zero-radius
@@ -42,8 +42,8 @@ frames with thin brass rules; salon-mirror framing on imagery.
 
 ## Architecture
 
-- `v2/` — fresh Vite + React 19 + TypeScript app (no UI framework, hand-rolled CSS)
-- `api/` — Vercel serverless functions (Node 20, `stripe` SDK)
+- `v2/`: fresh Vite + React 19 + TypeScript app (no UI framework, hand-rolled CSS)
+- `api/`: Vercel serverless functions (Node 20, `stripe` SDK)
 - Root `vercel.json` builds `v2/` and exposes `api/`
 - Env: `VITE_CLOUDINARY_CLOUD_NAME`, `VITE_CLOUDINARY_UPLOAD_PRESET`,
   `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `LICENSE_SECRET`, `APP_URL`

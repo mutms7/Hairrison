@@ -165,7 +165,7 @@ export function Studio({ onHistoryChange }: Props) {
       </div>
 
       <div className="studio-steps">
-        {/* STEP 1 — PHOTO */}
+        {/* STEP 1: PHOTO */}
         <div className="studio-step">
           <h3 className="step-title">
             <span className="step-no">I</span> Your photo
@@ -183,7 +183,7 @@ export function Studio({ onHistoryChange }: Props) {
           )}
         </div>
 
-        {/* STEP 2 — LOOKS */}
+        {/* STEP 2: LOOKS */}
         <div className="studio-step">
           <h3 className="step-title">
             <span className="step-no">II</span> Pick up to {MAX_LOOKS} looks
@@ -199,7 +199,7 @@ export function Studio({ onHistoryChange }: Props) {
           </details>
         </div>
 
-        {/* STEP 3 — GENERATE */}
+        {/* STEP 3: GENERATE */}
         <div className="studio-step">
           <h3 className="step-title">
             <span className="step-no">III</span> See it
@@ -261,7 +261,7 @@ export function Studio({ onHistoryChange }: Props) {
           {active && active.status === 'pending' && (
             <div className="result-loading">
               <div className="loading-shimmer" />
-              <p>Styling “{active.label}” — generative AI takes 15–60 seconds on the first render.</p>
+              <p>Styling “{active.label}”. Generative AI takes 15 to 60 seconds on the first render.</p>
             </div>
           )}
           {active && active.status === 'error' && <p className="error-text">{active.error}</p>}

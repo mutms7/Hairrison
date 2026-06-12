@@ -50,7 +50,7 @@ export function warmTransform(url: string): Promise<string> {
     img.onerror = () =>
       reject(
         new Error(
-          'Generation failed. Cloudinary could not process this image — try a clearer, front-facing photo.'
+          'Generation failed. Cloudinary could not process this image. Try a clearer, front-facing photo.'
         )
       );
     img.src = url;

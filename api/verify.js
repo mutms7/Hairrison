@@ -4,7 +4,7 @@
  *
  * Env required:
  *   STRIPE_SECRET_KEY
- *   LICENSE_SECRET — any long random string (used to sign license tokens)
+ *   LICENSE_SECRET: any long random string (used to sign license tokens)
  */
 import Stripe from 'stripe';
 import crypto from 'node:crypto';

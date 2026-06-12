@@ -1,5 +1,5 @@
 /**
- * Entitlements — every visitor gets ONE free generation.
+ * Entitlements: every visitor gets ONE free generation.
  * Unlimited access is a $1.99 one-time purchase via Stripe Checkout.
  *
  * Honest note: generation runs client-side through Cloudinary URLs, so this

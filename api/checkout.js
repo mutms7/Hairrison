@@ -3,8 +3,8 @@
  * Creates a Stripe Checkout Session for the one-time $1.99 unlimited unlock.
  *
  * Env required:
- *   STRIPE_SECRET_KEY  — sk_live_... or sk_test_...
- *   APP_URL            — e.g. https://hairrison.vercel.app (no trailing slash)
+ *   STRIPE_SECRET_KEY  : sk_live_... or sk_test_...
+ *   APP_URL            : e.g. https://hairrison.vercel.app (no trailing slash)
  */
 import Stripe from 'stripe';
 
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
             currency: 'usd',
             unit_amount: 199, // $1.99 one-time
             product_data: {
-              name: 'Hairrison Studio — Unlimited Looks',
+              name: 'Hairrison Studio: Unlimited Looks',
               description:
                 'One-time unlock. Generate unlimited AI hairstyle previews, forever.',
             },

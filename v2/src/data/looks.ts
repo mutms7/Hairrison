@@ -99,7 +99,7 @@ export const HAIRSTYLES: Hairstyle[] = [
     id: 'wolf-cut',
     name: 'Wolf Cut',
     tagline: 'The 2024 Obsession',
-    description: 'Shaggy layers, curtain bangs, and effortless volume — the internet\'s favorite cut.',
+    description: 'Shaggy layers, curtain bangs, and effortless volume, the internet\'s favorite cut.',
     genPrompt: 'wolf cut hairstyle with face-framing curtain bangs, shaggy layers, lots of volume and texture',
     category: 'Medium',
     tags: ['wolf', 'curtain-bangs', 'layers', 'trending'],
@@ -252,7 +252,7 @@ export const HAIRSTYLES: Hairstyle[] = [
     gender: 'Women',
   },
 
-  // ── MARKETPLACE — MEN'S ───────────────────────────────────
+  // ── MARKETPLACE: MEN'S ───────────────────────────────────
   {
     id: 'textured-fade',
     name: 'Textured Fade',
@@ -370,7 +370,7 @@ export function getRandomHairstyle(): Hairstyle {
   return HAIRSTYLES[Math.floor(Math.random() * HAIRSTYLES.length)];
 }
 
-// ── v2 ADDITIONS — PROMPT BUILDER MODIFIERS ─────────────────
+// ── v2 ADDITIONS: PROMPT BUILDER MODIFIERS ─────────────────
 export interface Modifier {
   id: string;
   label: string;
