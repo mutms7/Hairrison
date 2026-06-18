@@ -1,376 +1,254 @@
+// ─────────────────────────────────────────────────────────────
+// Hairstyle presets. These are here to spark ideas; the real star
+// is the custom prompt builder. Every preset carries a real
+// reference photo (Unsplash) so people can see the look before
+// they try it on themselves.
+// ─────────────────────────────────────────────────────────────
+
+export type Gender = 'Women' | 'Men';
+export type Length = 'Short' | 'Medium' | 'Long';
+export type Texture = 'Straight' | 'Wavy' | 'Curly';
+
 export interface Hairstyle {
   id: string;
   name: string;
   tagline: string;
-  description: string;
+  /** Short, clean phrase fed to Cloudinary. Keep it simple. */
   genPrompt: string;
-  category: 'Short' | 'Medium' | 'Long' | 'Curly' | 'Updo';
-  tags: string[];
+  /** Unsplash photo base URL (no query string). */
+  image: string;
+  gender: Gender;
+  length: Length;
+  texture: Texture;
   trending?: boolean;
-  isPreset?: boolean;
-  gradient: [string, string];
-  icon: string;
-  gender: 'Women' | 'Men' | 'Unisex';
 }
 
+const U = (id: string) => `https://images.unsplash.com/photo-${id}`;
+
 export const HAIRSTYLES: Hairstyle[] = [
-  // ── PRESETS ──────────────────────────────────────────────
+  // ── WOMEN ─────────────────────────────────────────────────
   {
     id: 'classic-bob',
     name: 'Classic Bob',
-    tagline: 'Timeless & Polished',
-    description: 'A sleek chin-length cut with clean lines that frames the face perfectly.',
-    genPrompt: 'sleek chin-length classic bob haircut, straight smooth hair',
-    category: 'Short',
-    tags: ['classic', 'bob', 'straight'],
-    isPreset: true,
-    gradient: ['#1a0a0a', '#3d0c0c'],
-    icon: '✦',
+    tagline: 'Timeless & polished',
+    genPrompt: 'a sleek straight chin-length bob',
+    image: U('1604057883945-2b8b91ea1575'),
     gender: 'Women',
-  },
-  {
-    id: 'beach-waves',
-    name: 'Beach Waves',
-    tagline: 'Effortlessly Cool',
-    description: 'Loose, sun-kissed waves with natural-looking texture and movement.',
-    genPrompt: 'beachy wavy shoulder length hair, loose natural waves, effortless texture',
-    category: 'Medium',
-    tags: ['waves', 'natural', 'beach'],
-    isPreset: true,
-    gradient: ['#0a1a1a', '#0c3030'],
-    icon: '◈',
-    gender: 'Women',
-  },
-  {
-    id: 'sleek-ponytail',
-    name: 'Sleek Ponytail',
-    tagline: 'Sharp & Elevated',
-    description: 'A high, polished ponytail pulled back tight for a clean editorial look.',
-    genPrompt: 'sleek high tight ponytail hairstyle, smooth pulled back hair, editorial style',
-    category: 'Updo',
-    tags: ['ponytail', 'sleek', 'updo'],
-    isPreset: true,
-    gradient: ['#0a0a1a', '#0c0c3d'],
-    icon: '▲',
-    gender: 'Unisex',
-  },
-  {
-    id: 'curly-afro',
-    name: 'Natural Afro',
-    tagline: 'Bold & Beautiful',
-    description: 'Full, voluminous natural curls celebrating texture and dimension.',
-    genPrompt: 'natural voluminous afro hairstyle, full curly hair, defined coils, beautiful texture',
-    category: 'Curly',
-    tags: ['afro', 'natural', 'curly', 'voluminous'],
-    isPreset: true,
-    gradient: ['#1a0a00', '#3d2200'],
-    icon: '❋',
-    gender: 'Unisex',
+    length: 'Short',
+    texture: 'Straight',
+    trending: true,
   },
   {
     id: 'pixie-cut',
     name: 'Pixie Cut',
-    tagline: 'Daring & Chic',
-    description: 'Short and structured, the pixie cut makes a bold statement with minimum fuss.',
-    genPrompt: 'short pixie cut hairstyle, structured short hair, textured top, tapered sides',
-    category: 'Short',
-    tags: ['pixie', 'short', 'structured'],
-    isPreset: true,
-    gradient: ['#1a001a', '#3d003d'],
-    icon: '◇',
-    gender: 'Unisex',
-  },
-  {
-    id: 'long-layers',
-    name: 'Long Layers',
-    tagline: 'Flowing & Romantic',
-    description: 'Cascading layers that add movement and dimension to long hair.',
-    genPrompt: 'long layered hair with face-framing layers, flowing movement, voluminous ends',
-    category: 'Long',
-    tags: ['long', 'layers', 'flowing'],
-    isPreset: true,
-    gradient: ['#001a0a', '#003d1a'],
-    icon: '〜',
+    tagline: 'Daring & chic',
+    genPrompt: 'a short textured pixie cut',
+    image: U('1471017851983-fc49d89c57c2'),
     gender: 'Women',
-  },
-
-  // ── MARKETPLACE ───────────────────────────────────────────
-  {
-    id: 'wolf-cut',
-    name: 'Wolf Cut',
-    tagline: 'The 2024 Obsession',
-    description: 'Shaggy layers, curtain bangs, and effortless volume, the internet\'s favorite cut.',
-    genPrompt: 'wolf cut hairstyle with face-framing curtain bangs, shaggy layers, lots of volume and texture',
-    category: 'Medium',
-    tags: ['wolf', 'curtain-bangs', 'layers', 'trending'],
-    trending: true,
-    gradient: ['#1a1a00', '#2d2d00'],
-    icon: '⋆',
-    gender: 'Unisex',
+    length: 'Short',
+    texture: 'Straight',
   },
   {
-    id: 'butterfly-cut',
-    name: 'Butterfly Cut',
-    tagline: 'Volume Maximized',
-    description: 'Two-tier layers create massive volume and a stunning butterfly wing silhouette.',
-    genPrompt: 'butterfly cut hairstyle, two-tier layers, voluminous flipped ends, 70s inspired',
-    category: 'Long',
-    tags: ['butterfly', 'layers', 'voluminous', 'trending'],
-    trending: true,
-    gradient: ['#001a1a', '#003333'],
-    icon: '◉',
+    id: 'curly-crop',
+    name: 'Curly Crop',
+    tagline: 'Bouncy & bold',
+    genPrompt: 'short bouncy defined curls',
+    image: U('1632765854612-9b02b6ec2b15'),
     gender: 'Women',
+    length: 'Short',
+    texture: 'Curly',
   },
   {
-    id: 'french-bob',
-    name: 'French Bob',
-    tagline: 'Parisian Elegance',
-    description: 'Blunt-cut above the jaw with full fringe bangs. Très chic.',
-    genPrompt: 'french bob hairstyle with blunt cut bangs, jaw-length blunt bob, Parisian chic',
-    category: 'Short',
-    tags: ['french', 'bob', 'bangs', 'chic'],
-    trending: true,
-    gradient: ['#1a0505', '#2d0808'],
-    icon: '◎',
+    id: 'beach-waves',
+    name: 'Beach Waves',
+    tagline: 'Effortlessly cool',
+    genPrompt: 'loose shoulder-length beach waves',
+    image: U('1571070347483-9d9b1f8ab915'),
     gender: 'Women',
-  },
-  {
-    id: 'bixie-cut',
-    name: 'Bixie Cut',
-    tagline: 'The Hybrid Hero',
-    description: 'The perfect between: longer than a pixie, shorter than a bob. Best of both worlds.',
-    genPrompt: 'bixie cut hairstyle between bob and pixie, textured short hair, modern edgy cut',
-    category: 'Short',
-    tags: ['bixie', 'short', 'modern'],
+    length: 'Medium',
+    texture: 'Wavy',
     trending: true,
-    gradient: ['#0a0010', '#15001f'],
-    icon: '△',
-    gender: 'Unisex',
   },
   {
     id: 'curtain-bangs',
     name: 'Curtain Bangs',
-    tagline: 'Effortless Fringe',
-    description: 'Parted-in-the-middle curtain bangs that frame the face softly.',
-    genPrompt: 'curtain bangs hairstyle, face-framing bangs parted in the middle, soft wispy fringe',
-    category: 'Medium',
-    tags: ['bangs', 'curtain', 'fringe'],
-    trending: true,
-    gradient: ['#001010', '#002020'],
-    icon: '𝌶',
-    gender: 'Unisex',
-  },
-  {
-    id: 'shag-cut',
-    name: 'Shag Haircut',
-    tagline: '70s Rockstar Energy',
-    description: 'Heavy layers, choppy ends, and built-in texture. The ultimate effortless cool.',
-    genPrompt: 'shag haircut with heavy layers, choppy textured ends, 70s rock inspired, lots of movement',
-    category: 'Medium',
-    tags: ['shag', 'layers', 'textured', '70s'],
-    trending: false,
-    gradient: ['#100a00', '#201500'],
-    icon: '⊕',
-    gender: 'Unisex',
-  },
-  {
-    id: 'lob',
-    name: 'Lob (Long Bob)',
-    tagline: 'The Universal Flatterer',
-    description: 'Collarbone-length versatility. Works straight, wavy, or textured.',
-    genPrompt: 'long bob lob hairstyle at collarbone length, sleek and polished, versatile length',
-    category: 'Medium',
-    tags: ['lob', 'bob', 'collarbone', 'versatile'],
-    trending: false,
-    gradient: ['#0a000a', '#1a001a'],
-    icon: '⊗',
-    gender: 'Unisex',
-  },
-  {
-    id: 'braided-crown',
-    name: 'Braided Crown',
-    tagline: 'Regal & Romantic',
-    description: 'A halo braid wrapped around the head like a crown. Effortlessly elegant.',
-    genPrompt: 'braided crown hairstyle, halo braid, braided updo around the head, elegant romantic style',
-    category: 'Updo',
-    tags: ['braid', 'crown', 'updo', 'elegant'],
-    trending: false,
-    gradient: ['#050a00', '#0a1a00'],
-    icon: '⊙',
+    tagline: 'Soft framing fringe',
+    genPrompt: 'medium-length hair with curtain bangs',
+    image: U('1565906353471-db6555b67554'),
     gender: 'Women',
+    length: 'Medium',
+    texture: 'Wavy',
   },
   {
-    id: 'blunt-bob-fringe',
-    name: 'Power Bob',
-    tagline: 'Command the Room',
-    description: 'Jaw-length blunt bob with or without fringe. Sharp, corporate-cool energy.',
-    genPrompt: 'power bob hairstyle, jaw-length blunt cut, sharp sleek bob, bold statement hair',
-    category: 'Short',
-    tags: ['bob', 'power', 'blunt', 'corporate'],
-    trending: false,
-    gradient: ['#0f0000', '#1f0000'],
-    icon: '◼',
-    gender: 'Unisex',
-  },
-  {
-    id: 'loose-bun',
-    name: 'Messy Bun',
-    tagline: 'Casual Luxe',
-    description: 'An artfully undone bun with face-framing tendrils. Relaxed yet elevated.',
-    genPrompt: 'loose messy bun hairstyle with face-framing tendrils, casual elegant updo, undone chic',
-    category: 'Updo',
-    tags: ['bun', 'messy', 'updo', 'casual'],
-    trending: false,
-    gradient: ['#080808', '#141414'],
-    icon: '○',
+    id: 'natural-afro',
+    name: 'Natural Afro',
+    tagline: 'Texture celebrated',
+    genPrompt: 'a full natural afro',
+    image: U('1519699047748-de8e457a634e'),
     gender: 'Women',
-  },
-  {
-    id: 'kinky-coils',
-    name: 'Defined Coils',
-    tagline: 'Texture Celebrated',
-    description: 'Beautifully defined Type 4 coils with deep shine and springy definition.',
-    genPrompt: 'defined kinky coils natural hairstyle, Type 4 curls, deep shine, springy definition',
-    category: 'Curly',
-    tags: ['coils', 'natural', 'curly', 'type4'],
+    length: 'Medium',
+    texture: 'Curly',
     trending: true,
-    gradient: ['#0a0500', '#150a00'],
-    icon: '✿',
-    gender: 'Unisex',
   },
   {
-    id: 'sleek-straight',
+    id: 'glass-hair',
     name: 'Glass Hair',
-    tagline: 'Mirror-Finish Sleek',
-    description: 'Ultra-straight, ultra-shiny hair with a mirror-glass finish. The ultimate polish.',
-    genPrompt: 'glass hair ultra straight sleek hairstyle, mirror finish shine, extremely smooth and straight',
-    category: 'Long',
-    tags: ['straight', 'sleek', 'glass', 'shine'],
-    trending: true,
-    gradient: ['#050505', '#0f0f0f'],
-    icon: '◻',
+    tagline: 'Mirror-finish sleek',
+    genPrompt: 'long ultra-straight glossy hair',
+    image: U('1496440737103-cd596325d314'),
     gender: 'Women',
+    length: 'Long',
+    texture: 'Straight',
+  },
+  {
+    id: 'long-layers',
+    name: 'Long Layers',
+    tagline: 'Flowing & romantic',
+    genPrompt: 'long hair with face-framing layers',
+    image: U('1678271215818-3d2912e383ef'),
+    gender: 'Women',
+    length: 'Long',
+    texture: 'Straight',
+  },
+  {
+    id: 'long-curls',
+    name: 'Long Curls',
+    tagline: 'Romantic spirals',
+    genPrompt: 'long voluminous curls',
+    image: U('1500917293891-ef795e70e1f6'),
+    gender: 'Women',
+    length: 'Long',
+    texture: 'Curly',
+  },
+  {
+    id: 'mermaid-waves',
+    name: 'Mermaid Waves',
+    tagline: 'Long & dreamy',
+    genPrompt: 'long flowing mermaid waves',
+    image: U('1593529334658-a243a47ad02e'),
+    gender: 'Women',
+    length: 'Long',
+    texture: 'Wavy',
+    trending: true,
   },
 
-  // ── MARKETPLACE: MEN'S ───────────────────────────────────
-  {
-    id: 'textured-fade',
-    name: 'Textured Fade',
-    tagline: 'Edge & Texture',
-    description: 'Short sides with a textured top, modern fade, clean lines.',
-    genPrompt: 'textured fade haircut short sides clean fade textured top modern mens',
-    category: 'Short',
-    tags: ['fade', 'textured', 'mens'],
-    trending: true,
-    gradient: ['#001833', '#002b52'],
-    icon: '▣',
-    gender: 'Men',
-  },
-  {
-    id: 'slicked-back',
-    name: 'Slicked Back',
-    tagline: 'Old Money Vibes',
-    description: 'Classic slicked-back style with a defined part and glossy finish.',
-    genPrompt: 'slicked back hair mens classic side part glossy smooth pomade style',
-    category: 'Medium',
-    tags: ['slicked', 'classic', 'polished'],
-    trending: true,
-    gradient: ['#001a0d', '#002b14'],
-    icon: '◈',
-    gender: 'Men',
-  },
-  {
-    id: 'man-bun',
-    name: 'Man Bun',
-    tagline: 'Effortless Cool',
-    description: 'A casual half-up or full bun for longer hair.',
-    genPrompt: 'man bun hairstyle casual updo mens medium length hair pulled back bun',
-    category: 'Updo',
-    tags: ['bun', 'mens', 'casual'],
-    trending: false,
-    gradient: ['#1a1000', '#2b1a00'],
-    icon: '⊙',
-    gender: 'Men',
-  },
+  // ── MEN ───────────────────────────────────────────────────
   {
     id: 'buzz-cut',
     name: 'Buzz Cut',
-    tagline: 'Minimal Icon',
-    description: 'Ultra-short all-over buzz for a clean bold look.',
-    genPrompt: 'buzz cut very short uniform length mens hair clean minimal',
-    category: 'Short',
-    tags: ['buzz', 'short', 'minimal'],
-    trending: false,
-    gradient: ['#001220', '#001e33'],
-    icon: '◻',
+    tagline: 'Minimal icon',
+    genPrompt: 'a very short buzz cut',
+    image: U('1761792390398-717211a593db'),
     gender: 'Men',
-  },
-  {
-    id: 'pompadour',
-    name: 'Pompadour',
-    tagline: 'Rock the Room',
-    description: 'A voluminous pompadour with short sides and lots of height on top.',
-    genPrompt: 'pompadour hairstyle high volume top short sides mens classic rock style',
-    category: 'Short',
-    tags: ['pompadour', 'volume', 'retro'],
-    trending: false,
-    gradient: ['#200010', '#330019'],
-    icon: '▲',
-    gender: 'Men',
-  },
-  {
-    id: 'curtain-fringe-mens',
-    name: 'Curtain Fringe (Men\'s)',
-    tagline: 'Soft Boy Era',
-    description: 'Longer flowing hair with a centre-parted curtain fringe.',
-    genPrompt: 'mens curtain fringe hairstyle centre parted longer flowing hair soft natural',
-    category: 'Medium',
-    tags: ['curtain', 'fringe', 'soft'],
-    trending: true,
-    gradient: ['#001a1a', '#002a2a'],
-    icon: '⋆',
-    gender: 'Men',
-  },
-  {
-    id: 'undercut',
-    name: 'Undercut',
-    tagline: 'Sharp & Bold',
-    description: 'Long on top short underneath creating a dramatic contrast.',
-    genPrompt: 'undercut hairstyle long top shaved sides dramatic contrast mens modern',
-    category: 'Medium',
-    tags: ['undercut', 'bold', 'contrast'],
-    trending: false,
-    gradient: ['#10000a', '#1f0012'],
-    icon: '◇',
-    gender: 'Men',
+    length: 'Short',
+    texture: 'Straight',
   },
   {
     id: 'crew-cut',
     name: 'Crew Cut',
-    tagline: 'Clean Classic',
-    description: 'A clean military-inspired crew cut with a natural taper.',
-    genPrompt: 'crew cut hairstyle short natural taper mens military clean classic',
-    category: 'Short',
-    tags: ['crew', 'clean', 'classic'],
-    trending: false,
-    gradient: ['#001010', '#001e1e'],
-    icon: '△',
+    tagline: 'Clean classic',
+    genPrompt: 'a short tapered crew cut',
+    image: U('1672155408799-024306d7856d'),
     gender: 'Men',
+    length: 'Short',
+    texture: 'Straight',
+  },
+  {
+    id: 'textured-fade',
+    name: 'Textured Fade',
+    tagline: 'Edge & texture',
+    genPrompt: 'a textured crop with a skin fade',
+    image: U('1630827020718-3433092696e7'),
+    gender: 'Men',
+    length: 'Short',
+    texture: 'Straight',
+    trending: true,
+  },
+  {
+    id: 'textured-crop',
+    name: 'Textured Crop',
+    tagline: 'Modern & sharp',
+    genPrompt: 'a short textured crop with a fringe',
+    image: U('1629189784191-9afdcbcb0398'),
+    gender: 'Men',
+    length: 'Short',
+    texture: 'Straight',
+  },
+  {
+    id: 'slicked-back',
+    name: 'Slicked Back',
+    tagline: 'Old-money polish',
+    genPrompt: 'slicked-back glossy hair',
+    image: U('1618049049816-43a00d5b0c3d'),
+    gender: 'Men',
+    length: 'Short',
+    texture: 'Straight',
+  },
+  {
+    id: 'pompadour',
+    name: 'Pompadour',
+    tagline: 'Volume up top',
+    genPrompt: 'a voluminous pompadour with short sides',
+    image: U('1456327102063-fb5054efe647'),
+    gender: 'Men',
+    length: 'Short',
+    texture: 'Straight',
+  },
+  {
+    id: 'curly-top',
+    name: 'Curly Top',
+    tagline: 'Natural & textured',
+    genPrompt: 'short curly hair on top with tapered sides',
+    image: U('1522075469751-3a6694fb2f61'),
+    gender: 'Men',
+    length: 'Short',
+    texture: 'Curly',
+    trending: true,
+  },
+  {
+    id: 'curtain-fringe',
+    name: 'Curtain Fringe',
+    tagline: 'Soft-boy era',
+    genPrompt: 'medium-length hair with a centre-parted curtain fringe',
+    image: U('1513956589380-bad6acb9b9d4'),
+    gender: 'Men',
+    length: 'Medium',
+    texture: 'Wavy',
+  },
+  {
+    id: 'man-bun',
+    name: 'Man Bun',
+    tagline: 'Effortless cool',
+    genPrompt: 'longer hair tied back in a man bun',
+    image: U('1512663150964-d8f43c899f76'),
+    gender: 'Men',
+    length: 'Long',
+    texture: 'Straight',
+  },
+  {
+    id: 'long-flow',
+    name: 'Long Flow',
+    tagline: 'Rockstar waves',
+    genPrompt: 'long wavy flowing hair',
+    image: U('1635567818469-e28cdf45c1f5'),
+    gender: 'Men',
+    length: 'Long',
+    texture: 'Wavy',
   },
 ];
 
-export const PRESET_HAIRSTYLES = HAIRSTYLES.filter((h) => h.isPreset);
-export const MARKETPLACE_HAIRSTYLES = HAIRSTYLES.filter((h) => !h.isPreset);
 export const TRENDING_HAIRSTYLES = HAIRSTYLES.filter((h) => h.trending);
 
-export const ALL_CATEGORIES = ['Short', 'Medium', 'Long', 'Curly', 'Updo'] as const;
-export const ALL_GENDERS = ['Women', 'Men', 'Unisex'] as const;
+export const ALL_GENDERS: Gender[] = ['Women', 'Men'];
+export const ALL_LENGTHS: Length[] = ['Short', 'Medium', 'Long'];
+export const ALL_TEXTURES: Texture[] = ['Straight', 'Wavy', 'Curly'];
 
-export function getRandomHairstyle(): Hairstyle {
-  return HAIRSTYLES[Math.floor(Math.random() * HAIRSTYLES.length)];
+/** Append delivery params to an Unsplash base URL. */
+export function styleImage(base: string, w = 600, h = 750): string {
+  return `${base}?auto=format&fit=crop&w=${w}&h=${h}&q=70`;
 }
 
-// ── v2 ADDITIONS: PROMPT BUILDER MODIFIERS ─────────────────
+// ── PROMPT BUILDER MODIFIERS ───────────────────────────────
 export interface Modifier {
   id: string;
   label: string;
@@ -378,58 +256,60 @@ export interface Modifier {
 }
 
 export const LENGTH_MODS: Modifier[] = [
-  { id: 'len-buzz', label: 'Buzzed', prompt: 'very short buzzed length' },
-  { id: 'len-ear', label: 'Ear-length', prompt: 'ear length' },
-  { id: 'len-chin', label: 'Chin-length', prompt: 'chin length' },
-  { id: 'len-shoulder', label: 'Shoulder', prompt: 'shoulder length' },
-  { id: 'len-long', label: 'Long', prompt: 'long past the shoulders' },
-  { id: 'len-waist', label: 'Waist-length', prompt: 'very long waist length' },
+  { id: 'len-buzz', label: 'Buzzed', prompt: 'very short buzzed' },
+  { id: 'len-short', label: 'Short', prompt: 'short' },
+  { id: 'len-chin', label: 'Chin', prompt: 'chin-length' },
+  { id: 'len-shoulder', label: 'Shoulder', prompt: 'shoulder-length' },
+  { id: 'len-long', label: 'Long', prompt: 'long' },
+  { id: 'len-waist', label: 'Waist', prompt: 'very long waist-length' },
 ];
 
 export const TEXTURE_MODS: Modifier[] = [
-  { id: 'tex-straight', label: 'Straight', prompt: 'sleek straight' },
-  { id: 'tex-wavy', label: 'Wavy', prompt: 'loose natural waves' },
-  { id: 'tex-curly', label: 'Curly', prompt: 'defined bouncy curls' },
-  { id: 'tex-coily', label: 'Coily', prompt: 'springy defined coils' },
-  { id: 'tex-braided', label: 'Braided', prompt: 'neat braids' },
-  { id: 'tex-locs', label: 'Locs', prompt: 'well-maintained locs' },
+  { id: 'tex-straight', label: 'Straight', prompt: 'straight' },
+  { id: 'tex-wavy', label: 'Wavy', prompt: 'wavy' },
+  { id: 'tex-curly', label: 'Curly', prompt: 'curly' },
+  { id: 'tex-coily', label: 'Coily', prompt: 'coily' },
+  { id: 'tex-braided', label: 'Braided', prompt: 'braided' },
+  { id: 'tex-locs', label: 'Locs', prompt: 'in locs' },
 ];
 
 export const COLOR_MODS: Modifier[] = [
   { id: 'col-natural', label: 'Keep my color', prompt: '' },
-  { id: 'col-jetblack', label: 'Jet black', prompt: 'jet black color' },
-  { id: 'col-espresso', label: 'Espresso brown', prompt: 'rich dark brown color' },
-  { id: 'col-caramel', label: 'Caramel balayage', prompt: 'caramel balayage highlights' },
-  { id: 'col-honey', label: 'Honey blonde', prompt: 'warm honey blonde color' },
-  { id: 'col-platinum', label: 'Platinum', prompt: 'icy platinum blonde color' },
-  { id: 'col-copper', label: 'Copper red', prompt: 'vibrant copper red color' },
-  { id: 'col-rose', label: 'Rose gold', prompt: 'soft rose gold color' },
-  { id: 'col-silver', label: 'Silver', prompt: 'silver gray color' },
+  { id: 'col-jetblack', label: 'Jet black', prompt: 'jet black' },
+  { id: 'col-espresso', label: 'Brown', prompt: 'dark brown' },
+  { id: 'col-caramel', label: 'Caramel', prompt: 'caramel highlights' },
+  { id: 'col-honey', label: 'Honey blonde', prompt: 'honey blonde' },
+  { id: 'col-platinum', label: 'Platinum', prompt: 'platinum blonde' },
+  { id: 'col-copper', label: 'Copper', prompt: 'copper red' },
+  { id: 'col-rose', label: 'Rose gold', prompt: 'rose gold' },
+  { id: 'col-silver', label: 'Silver', prompt: 'silver grey' },
 ];
 
-export const VIBE_MODS: Modifier[] = [
-  { id: 'vibe-polished', label: 'Polished', prompt: 'polished salon-finished look' },
-  { id: 'vibe-effortless', label: 'Effortless', prompt: 'effortless lived-in texture' },
-  { id: 'vibe-editorial', label: 'Editorial', prompt: 'high-fashion editorial styling' },
-  { id: 'vibe-romantic', label: 'Romantic', prompt: 'soft romantic styling' },
-  { id: 'vibe-edgy', label: 'Edgy', prompt: 'bold edgy styling' },
-];
-
-/** Compile prompt-builder selections into a single generative prompt. */
+/**
+ * Compile prompt-builder selections into a single short generative
+ * phrase. We keep it lean on purpose: long, comma-heavy prompts
+ * confuse Cloudinary's generative replace and muddy the result.
+ */
 export function composePrompt(parts: {
   base?: string;
   length?: Modifier | null;
   texture?: Modifier | null;
   color?: Modifier | null;
-  vibe?: Modifier | null;
 }): string {
-  const segments = [
-    parts.base?.trim(),
+  const base = parts.base?.trim();
+
+  // If the user typed something free-form, trust it and just layer
+  // colour on if they picked one. No boilerplate.
+  if (base) {
+    return [base, parts.color?.prompt].filter(Boolean).join(' ');
+  }
+
+  const descriptors = [
     parts.length?.prompt,
     parts.texture?.prompt,
     parts.color?.prompt,
-    parts.vibe?.prompt,
-    'natural realistic hair, photorealistic',
   ].filter((s): s is string => Boolean(s && s.length));
-  return segments.join(' ');
+
+  if (descriptors.length === 0) return '';
+  return `${descriptors.join(' ')} hair`;
 }

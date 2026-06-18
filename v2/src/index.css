@@ -5,21 +5,30 @@
    ───────────────────────────────────────────────────────────── */
 
 :root {
-  --espresso-0: #14100c;
-  --espresso-1: #1c1610;
-  --espresso-2: #261e16;
-  --brass: #b5722e;
-  --brass-bright: #d8924a;
-  --porcelain: #f3ece2;
-  --porcelain-dim: #b9ad9d;
-  --rose: #d9a39a;
-  --error: #e06a5a;
-  --success: #8fb98a;
+  /* Barbershop Americana: black surfaces, classic barber red,
+     barber blue, white. */
+  --espresso-0: #0a0a0d; /* black base */
+  --espresso-1: #121319; /* raised surface */
+  --espresso-2: #1c1e29; /* higher surface */
+  --red: #cc2230;        /* barber red, primary accent */
+  --red-bright: #ff3b48; /* bright red, hover / emphasis */
+  --blue: #1f4fd6;       /* barber blue, secondary accent */
+  --blue-bright: #4f78ff;
+  --white: #f6f7fb;      /* near-white text */
+
+  /* Legacy aliases so existing rules keep working. */
+  --brass: var(--red);          /* primary accent */
+  --brass-bright: var(--red-bright);
+  --porcelain: var(--white);    /* text */
+  --porcelain-dim: #9aa3b6;     /* cool grey */
+  --rose: var(--blue);          /* detail accent */
+  --error: #ff5a5a;
+  --success: #5ad08a;
 
   --font-display: 'Bodoni Moda', 'Didot', Georgia, serif;
   --font-body: 'Outfit', system-ui, -apple-system, sans-serif;
 
-  --rule: 1px solid rgba(181, 114, 46, 0.35);
+  --rule: 1px solid rgba(246, 247, 251, 0.16);
   --max-width: 1080px;
 }
 
@@ -110,7 +119,7 @@ h3 {
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: rgba(181, 114, 46, 0.15);
+  background: rgba(246, 247, 251, 0.15);
 }
 
 .btn-ghost {
@@ -232,7 +241,7 @@ h3 {
 
 /* Photo */
 .photo-placeholder {
-  border: 1px dashed rgba(181, 114, 46, 0.5);
+  border: 1px dashed rgba(246, 247, 251, 0.5);
   padding: 44px 28px;
   text-align: center;
   display: grid;
@@ -255,91 +264,208 @@ h3 {
   background: var(--espresso-1);
 }
 
-/* Looks library */
-.looks-filters {
+/* Feature step (Build your own) */
+.studio-step-feature {
+  border: 1px solid rgba(204, 34, 48, 0.55);
+  background: linear-gradient(160deg, var(--espresso-1), var(--espresso-0));
+  padding: 28px;
+}
+
+.step-lead {
+  color: var(--porcelain-dim);
+  font-size: 0.95rem;
+  max-width: 620px;
+  margin: -6px 0 22px;
+}
+
+/* Prompt builder, made prominent */
+.builder-big-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.builder-big-input {
+  font-size: 1.05rem;
+  padding: 16px 18px;
+}
+
+.builder-hint {
+  font-size: 0.82rem;
+  color: var(--porcelain-dim);
+  margin: 10px 0 4px;
+}
+
+.builder-mods {
   display: grid;
-  gap: 10px;
+  gap: 16px;
+  margin-top: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.builder-mods-dim {
+  opacity: 0.5;
+}
+
+/* Gender tabs */
+.gender-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: var(--rule);
   margin-bottom: 18px;
 }
 
-.looks-search {
-  max-width: 320px;
+.gender-tab {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--porcelain-dim);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 6px 18px 12px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.gender-tab:hover {
+  color: var(--porcelain);
+}
+
+.gender-tab-active {
+  color: var(--brass-bright);
+  border-bottom-color: var(--brass-bright);
+}
+
+/* Looks gallery filters */
+.looks-filters {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .looks-filter-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
-.looks-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 12px;
+.filter-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--porcelain-dim);
+  min-width: 64px;
 }
 
-.look-card {
+/* Gallery */
+.looks-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 18px;
+}
+
+.gallery-card {
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.gallery-photo {
   position: relative;
-  border: 1px solid rgba(181, 114, 46, 0.25);
-  color: var(--porcelain);
-  padding: 18px 14px 16px;
-  text-align: left;
-  display: grid;
-  gap: 4px;
-  cursor: pointer;
-  transition: border-color 0.15s ease, transform 0.15s ease;
-  border-radius: 0;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid rgba(246, 247, 251, 0.3);
+  background: var(--espresso-1);
+}
+
+.gallery-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease, filter 0.3s ease;
+}
+
+.gallery-card:hover .gallery-photo img {
+  transform: scale(1.05);
+  filter: brightness(0.7);
+}
+
+.gallery-trend {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--espresso-0);
+  background: var(--rose);
+  padding: 3px 8px;
+}
+
+.gallery-try {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%) translateY(8px);
+  opacity: 0;
+  white-space: nowrap;
   font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--espresso-0);
+  background: var(--brass-bright);
+  border: none;
+  padding: 11px 20px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
 }
 
-.look-card:hover:not(:disabled) {
-  border-color: var(--brass-bright);
-  transform: translateY(-2px);
+.gallery-card:hover .gallery-try,
+.gallery-try:focus-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
-.look-card:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
+.gallery-try:hover {
+  background: var(--brass);
 }
 
-.look-card-selected {
-  border-color: var(--brass-bright);
-  box-shadow: 0 0 0 1px var(--brass-bright);
+.gallery-try:disabled {
+  opacity: 1;
+  background: var(--espresso-2);
+  color: var(--porcelain-dim);
+  cursor: wait;
 }
 
-.look-icon {
-  color: var(--brass-bright);
-  font-size: 1.1rem;
+/* On touch screens there's no hover, so keep the button visible. */
+@media (hover: none) {
+  .gallery-try {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
 }
 
-.look-name {
+.gallery-caption {
+  display: grid;
+  gap: 2px;
+}
+
+.gallery-name {
   font-family: var(--font-display);
   font-size: 1.02rem;
   font-weight: 600;
 }
 
-.look-tagline {
+.gallery-tagline {
   font-size: 0.72rem;
   color: var(--porcelain-dim);
   letter-spacing: 0.04em;
-}
-
-.look-trend {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 0.58rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--rose);
-}
-
-.look-check {
-  position: absolute;
-  bottom: 10px;
-  right: 12px;
-  color: var(--brass-bright);
-  font-weight: 700;
 }
 
 /* Chips */
@@ -348,7 +474,7 @@ h3 {
   font-size: 0.76rem;
   letter-spacing: 0.06em;
   padding: 7px 14px;
-  border: 1px solid rgba(181, 114, 46, 0.35);
+  border: 1px solid rgba(246, 247, 251, 0.35);
   background: transparent;
   color: var(--porcelain-dim);
   cursor: pointer;
@@ -398,7 +524,7 @@ h3 {
 
 .text-input {
   background: var(--espresso-1);
-  border: 1px solid rgba(181, 114, 46, 0.35);
+  border: 1px solid rgba(246, 247, 251, 0.35);
   color: var(--porcelain);
   font-family: var(--font-body);
   font-size: 0.95rem;
@@ -511,7 +637,7 @@ h3 {
   );
   background-size: 200% 100%;
   animation: shimmer 1.6s infinite;
-  border: 1px solid rgba(181, 114, 46, 0.3);
+  border: 1px solid rgba(246, 247, 251, 0.3);
 }
 
 @keyframes shimmer {
@@ -530,7 +656,7 @@ h3 {
   border-radius: 240px 240px 8px 8px; /* arched salon mirror */
   box-shadow:
     0 0 0 6px var(--espresso-1),
-    0 0 0 7px rgba(181, 114, 46, 0.45),
+    0 0 0 7px rgba(204, 34, 48, 0.6),
     0 30px 60px rgba(0, 0, 0, 0.5);
   cursor: ew-resize;
   user-select: none;
@@ -590,7 +716,7 @@ h3 {
   font-size: 0.66rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  background: rgba(20, 16, 12, 0.75);
+  background: rgba(8, 8, 12, 0.82);
   color: var(--porcelain);
   padding: 5px 12px;
 }
@@ -636,7 +762,7 @@ h3 {
 .history-card {
   flex: 0 0 130px;
   background: var(--espresso-1);
-  border: 1px solid rgba(181, 114, 46, 0.3);
+  border: 1px solid rgba(246, 247, 251, 0.3);
   padding: 6px 6px 10px;
   display: grid;
   gap: 8px;
@@ -740,7 +866,7 @@ h3 {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(10, 8, 6, 0.8);
+  background: rgba(4, 4, 8, 0.86);
   display: grid;
   place-items: center;
   z-index: 50;
@@ -776,4 +902,57 @@ h3 {
     width: 100%;
     min-width: 0;
   }
+}
+
+/* ── Barbershop side poles ───────────────────────────────────
+   Fixed red/white/blue diagonal stripes hug both screen edges and
+   fade fast into black before they reach the content column. The
+   content sits on its own opaque black panel above them, so the
+   poles only ever show in the gutters and never bleed behind text.
+   On narrow screens the content fills the width and the poles
+   simply tuck out of sight. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: clamp(54px, 13vw, 200px);
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+body::before {
+  left: 0;
+  background-image:
+    linear-gradient(to right, transparent 0%, var(--espresso-0) 70%),
+    repeating-linear-gradient(
+      45deg,
+      var(--red) 0 22px,
+      var(--white) 22px 44px,
+      var(--blue) 44px 66px,
+      var(--white) 66px 88px
+    );
+}
+
+body::after {
+  right: 0;
+  background-image:
+    linear-gradient(to left, transparent 0%, var(--espresso-0) 70%),
+    repeating-linear-gradient(
+      -45deg,
+      var(--red) 0 22px,
+      var(--white) 22px 44px,
+      var(--blue) 44px 66px,
+      var(--white) 66px 88px
+    );
+}
+
+/* Content panel rides above the poles on solid black. */
+.app {
+  position: relative;
+  z-index: 1;
+  background: var(--espresso-0);
 }

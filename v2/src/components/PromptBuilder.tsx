@@ -1,11 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import {
-  LENGTH_MODS,
-  TEXTURE_MODS,
-  COLOR_MODS,
-  VIBE_MODS,
-  composePrompt,
-} from '../data/looks';
+import { LENGTH_MODS, TEXTURE_MODS, COLOR_MODS, composePrompt } from '../data/looks';
 import type { Modifier } from '../data/looks';
 
 interface Props {
@@ -47,40 +41,50 @@ export function PromptBuilder({ onPromptChange }: Props) {
   const [length, setLength] = useState<Modifier | null>(null);
   const [texture, setTexture] = useState<Modifier | null>(null);
   const [color, setColor] = useState<Modifier | null>(null);
-  const [vibe, setVibe] = useState<Modifier | null>(null);
 
   const compiled = useMemo(
-    () => composePrompt({ base, length, texture, color, vibe }),
-    [base, length, texture, color, vibe]
+    () => composePrompt({ base, length, texture, color }),
+    [base, length, texture, color]
   );
 
-  // Push compiled prompt up whenever it changes
+  // Push the compiled prompt up whenever it changes.
   useEffect(() => {
-    const hasSelection = base.trim() || length || texture || color || vibe;
-    onPromptChange(hasSelection ? compiled : '');
-  }, [compiled, base, length, texture, color, vibe, onPromptChange]);
+    onPromptChange(compiled);
+  }, [compiled, onPromptChange]);
+
+  // Once you type your own description, the length/texture chips just
+  // get in the way, so fade them out (colour still stacks nicely).
+  const hasFreeText = base.trim().length > 0;
 
   return (
     <div className="prompt-builder">
-      <label className="field-label" htmlFor="base-prompt">
-        Describe it (optional)
+      <label className="builder-big-label" htmlFor="base-prompt">
+        Describe any look you want
       </label>
       <input
         id="base-prompt"
-        className="text-input"
+        className="text-input builder-big-input"
         type="text"
-        placeholder="e.g. shaggy mullet with micro bangs"
+        placeholder="e.g. shaggy mullet with micro bangs · platinum buzz cut · a rat on my head"
         value={base}
         onChange={(e) => setBase(e.target.value)}
-        maxLength={140}
+        maxLength={160}
+        autoComplete="off"
       />
-      <ChipRow title="Length" mods={LENGTH_MODS} selected={length} onSelect={setLength} />
-      <ChipRow title="Texture" mods={TEXTURE_MODS} selected={texture} onSelect={setTexture} />
-      <ChipRow title="Color" mods={COLOR_MODS} selected={color} onSelect={setColor} />
-      <ChipRow title="Vibe" mods={VIBE_MODS} selected={vibe} onSelect={setVibe} />
-      {compiled && (base.trim() || length || texture || color || vibe) ? (
+      <p className="builder-hint">
+        Go literal, it generates exactly what you say. Or skip the typing and
+        tap the options below.
+      </p>
+
+      <div className={hasFreeText ? 'builder-mods builder-mods-dim' : 'builder-mods'}>
+        <ChipRow title="Length" mods={LENGTH_MODS} selected={length} onSelect={setLength} />
+        <ChipRow title="Texture" mods={TEXTURE_MODS} selected={texture} onSelect={setTexture} />
+        <ChipRow title="Color" mods={COLOR_MODS} selected={color} onSelect={setColor} />
+      </div>
+
+      {compiled ? (
         <p className="prompt-preview">
-          <span>Prompt:</span> {compiled}
+          <span>Prompt</span> {compiled}
         </p>
       ) : null}
     </div>

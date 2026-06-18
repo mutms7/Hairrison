@@ -2,8 +2,9 @@
 
 > **Try the haircut before the haircut.**
 
-AI hairstyle preview, rebuilt as a real product. Upload a selfie, compose a look, and see yourself in it (in a salon mirror) before you commit.
+AI hairstyle preview, rebuilt as a real product. Upload a selfie, describe any look you can dream up, and see yourself in it (in a salon mirror) before you commit.
 
+🌐 **Live app:** [hairrison.vercel.app](https://hairrison.vercel.app/)
 🎥 **v1 Demo Video:** [Watch on YouTube](https://youtu.be/vljrvV9sbSA)
 🏆 Originally built by William Chenyin for Hack Canada 2026. This repo now contains **v2 ("Hairrison Studio")**, a ground-up rebuild. The original hackathon app is preserved in [`Hairrison/`](./Hairrison).
 
@@ -11,16 +12,20 @@ AI hairstyle preview, rebuilt as a real product. Upload a selfie, compose a look
 
 ## What it does
 
-1. **Upload a selfie** via the Cloudinary Upload Widget
-2. **Compose a look**: pick from 27 curated presets, build a prompt from chips (length / texture / color / vibe), or write your own
-3. **Generate**: Cloudinary Generative Replace swaps your hair for the described style
-4. **Mirror Compare**: drag the salon-mirror slider to sweep between before and after
-5. **Queue up to 3 looks** and compare them side by side
-6. **Download** the result, or restore any look from your session history
+1. **Upload a selfie** via the Cloudinary Upload Widget. It stays in your Cloudinary library.
+2. **Build your own look** (the main event): type anything, "shaggy mullet with micro bangs," "platinum buzz cut," even "a rat on my head," or assemble a look from length / texture / color chips. The prompt is sent to Cloudinary nearly verbatim, so what you describe is what you get. It isn't restricted to hair.
+3. **Or get inspired** from the preset gallery: real reference photos for **Women** and **Men**, filterable by **length** (short / medium / long) and **texture** (straight / wavy / curly). Hover any look and tap **Try this look** to render it onto your photo.
+4. **Mirror Compare**: drag the salon-mirror slider to sweep between before and after.
+5. **Switch between generated looks** via result tabs, and **download** any one.
+6. **Session history**: every look you make is saved locally and restorable from the film-strip rail.
 
 ## Pricing
 
-Your **first generation is free**, no account, no card. Unlimited looks are a **one-time $1.99 unlock** via Stripe Checkout. No subscription, ever. Stripe emails your receipt at checkout; support: chenyinwilliam@gmail.com.
+Two **free tries** to start, no account, no card: one **custom-prompt look** and one **preset look**, so you can feel both halves of the product. After that, unlimited looks are a **one-time $1.99 unlock** via Stripe Checkout. No subscription, ever. Stripe emails your receipt at checkout; support: chenyinwilliam@gmail.com.
+
+### Dev mode 🔑
+
+Type the secret word **`harey`** anywhere on the page (or right into the prompt box) to flip on **dev mode**: unlimited generations on that device, no payment. It's a convenience for the owner and anyone they share the word with, the gate is client-side anyway (see the honest limitation below).
 
 ---
 
@@ -35,15 +40,15 @@ Your **first generation is free**, no account, no card. Unlimited looks are a **
 └── Hairrison/   v1 (Hack Canada 2026 original, preserved)
 ```
 
-**Core engine** (Cloudinary Generative Replace):
+**Core engine** (Cloudinary Generative Replace). Prompts are kept short and literal, no appended boilerplate, since long comma-heavy prompts muddy the result:
 
 ```ts
 cld.image(publicId)
-  .effect(generativeReplace().from('hair').to(prompt))  // commas stripped first
+  .effect(generativeReplace().from('hair').to(prompt))  // commas/slashes → spaces, whitespace collapsed
   .toURL();
 ```
 
-**Entitlements**: free credit + license live in `localStorage`; licenses are HMAC-signed server-side (`LICENSE_SECRET`) and verified after Stripe redirects back with `session_id`.
+**Entitlements**: two free credits (one `prompt`, one `preset`), the dev-mode flag, and the license all live in `localStorage`. Licenses are HMAC-signed server-side (`LICENSE_SECRET`) and verified after Stripe redirects back with `session_id`.
 
 > **Honest limitation:** generation runs client-side through Cloudinary URLs, so the paywall is a product gate, not a security boundary. At $1.99 that's the right trade-off.
 
@@ -91,4 +96,4 @@ React 19 · TypeScript · Vite · Cloudinary Upload Widget + URL Gen SDK + Gener
 
 ## Design
 
-Backstage-editorial: espresso surfaces, brass rules, porcelain type, Bodoni Moda display over Outfit UI. One bold element (the mirror slider); everything else stays quiet.
+Backstage-editorial: espresso surfaces, brass rules, porcelain type, Bodoni Moda display over Outfit UI. The custom prompt builder leads; the preset gallery (reference photos via Unsplash) is framed as inspiration, not the main path. One bold element (the mirror slider); everything else stays quiet.

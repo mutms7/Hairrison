@@ -12,12 +12,13 @@ export function Hero({ onStart }: HeroProps) {
         <em>before</em> the haircut.
       </h1>
       <p className="hero-sub">
-        Upload a selfie, pick a look, and see yourself in it, powered by Cloudinary
-        generative AI. Your first look is free. Unlimited looks are $1.99, once, forever.
+        Upload a selfie, describe any look you can dream up, and see yourself in it,
+        powered by Cloudinary generative AI. Your first custom look and first preset are
+        free. Unlimited is $1.99, once, forever.
       </p>
       <div className="hero-actions">
         <button className="btn btn-primary" onClick={onStart}>
-          Try your first look free
+          Start with a free look
         </button>
       </div>
       <div className="hero-rule" aria-hidden>

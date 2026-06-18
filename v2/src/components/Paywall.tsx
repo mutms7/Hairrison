@@ -41,13 +41,13 @@ export function Paywall({ freeRemaining, unlimited, asModal = false, onClose }: 
       )}
       <p className="paywall-eyebrow">
         {freeRemaining > 0
-          ? `${freeRemaining} free look remaining`
-          : 'Your free look is used up'}
+          ? `${freeRemaining} free ${freeRemaining === 1 ? 'try' : 'tries'} remaining`
+          : 'Your free tries are used up'}
       </p>
       <h3 className="paywall-title">Unlimited looks for $1.99, once.</h3>
       <p className="paywall-copy">
-        One payment, no subscription. Generate as many hairstyles as you want, forever.
-        Secure checkout by Stripe; your receipt is emailed to you.
+        One payment, no subscription. Generate as many custom looks and presets as you
+        want, forever. Secure checkout by Stripe; your receipt is emailed to you.
       </p>
       <button className="btn btn-primary" onClick={buy} disabled={busy}>
         {busy ? 'Opening checkout…' : 'Unlock for $1.99'}

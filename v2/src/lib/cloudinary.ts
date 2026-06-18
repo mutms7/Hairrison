@@ -21,13 +21,19 @@ export interface CloudinaryUploadResult {
 
 /**
  * Build a Cloudinary Generative Replace URL that swaps the
- * subject's hair to the described hairstyle.
+ * subject's hair for whatever the prompt describes.
  *
- * Commas are Cloudinary transformation step separators, so they
- * are stripped from the prompt before building the URL.
+ * We keep the prompt as close to what the user asked for as
+ * possible, just tidied: commas are Cloudinary's transformation
+ * step separators (and slashes break URLs), so we strip those and
+ * collapse whitespace. Nothing else gets appended, short and
+ * literal prompts give the most accurate result.
  */
-export function buildHairTransformUrl(publicId: string, hairstylePrompt: string): string {
-  const cleanPrompt = hairstylePrompt.replace(/,/g, '');
+export function buildHairTransformUrl(publicId: string, prompt: string): string {
+  const cleanPrompt = prompt
+    .replace(/[,/]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
   return cld
     .image(publicId)
     .effect(generativeReplace().from('hair').to(cleanPrompt))

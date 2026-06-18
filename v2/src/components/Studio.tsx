@@ -4,23 +4,22 @@ import { MirrorCompare } from './MirrorCompare';
 import { PromptBuilder } from './PromptBuilder';
 import { LooksLibrary } from './LooksLibrary';
 import { Paywall } from './Paywall';
-import {
-  buildHairTransformUrl,
-  buildOptimisedUrl,
-  warmTransform,
-} from '../lib/cloudinary';
+import { buildHairTransformUrl, buildOptimisedUrl, warmTransform } from '../lib/cloudinary';
 import type { CloudinaryUploadResult } from '../lib/cloudinary';
 import {
   canGenerate,
   recordGeneration,
   hasUnlimited,
-  freeCreditsRemaining,
+  hasPaid,
+  isDevMode,
+  freePromptRemaining,
+  freePresetRemaining,
+  watchForDevCode,
 } from '../lib/entitlements';
+import type { LookKind } from '../lib/entitlements';
 import { addToHistory } from '../lib/history';
 import type { LookRecord } from '../lib/history';
 import type { Hairstyle } from '../data/looks';
-
-const MAX_LOOKS = 3;
 
 interface GeneratedLook {
   id: string;
@@ -37,99 +36,101 @@ interface Props {
 
 export function Studio({ onHistoryChange }: Props) {
   const [photo, setPhoto] = useState<CloudinaryUploadResult | null>(null);
-  const [selected, setSelected] = useState<Hairstyle[]>([]);
   const [customPrompt, setCustomPrompt] = useState('');
   const [results, setResults] = useState<GeneratedLook[]>([]);
   const [activeResult, setActiveResult] = useState<string | null>(null);
-  const [generating, setGenerating] = useState(false);
+  const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [devJustUnlocked, setDevJustUnlocked] = useState(false);
   const [, setTick] = useState(0); // re-render after entitlement changes
 
   const beforeUrl = photo ? buildOptimisedUrl(photo.public_id) : null;
 
-  const toggleLook = useCallback((style: Hairstyle) => {
-    setSelected((prev) =>
-      prev.some((s) => s.id === style.id)
-        ? prev.filter((s) => s.id !== style.id)
-        : [...prev, style].slice(0, MAX_LOOKS)
-    );
-  }, []);
+  // Secret unlock: type the code anywhere (including the prompt box).
+  useEffect(
+    () =>
+      watchForDevCode(() => {
+        setDevJustUnlocked(true);
+        setTick((t) => t + 1);
+      }),
+    []
+  );
 
   const onUpload = useCallback((result: CloudinaryUploadResult) => {
     setPhoto(result);
-    setResults([]);
-    setActiveResult(null);
     setError(null);
   }, []);
 
   const onUploadError = useCallback((msg: string) => setError(`Upload failed: ${msg}`), []);
 
-  const queue: { label: string; prompt: string }[] = [
-    ...selected.map((s) => ({ label: s.name, prompt: s.genPrompt })),
-    ...(customPrompt ? [{ label: 'Custom look', prompt: customPrompt }] : []),
-  ].slice(0, MAX_LOOKS);
+  const generateLook = useCallback(
+    async (opts: { kind: LookKind; label: string; prompt: string; styleId: string }) => {
+      const prompt = opts.prompt.trim();
+      if (!photo || !beforeUrl) {
+        setError('Upload your photo first.');
+        document.getElementById('studio')?.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      if (!prompt) {
+        setError('Describe a look first, then generate.');
+        return;
+      }
+      if (!canGenerate(opts.kind)) {
+        setShowPaywall(true);
+        return;
+      }
 
-  const generate = async () => {
-    if (!photo) {
-      setError('Upload your photo first.');
-      return;
-    }
-    if (queue.length === 0) {
-      setError('Pick a look from the library or build a custom prompt.');
-      return;
-    }
-    if (!canGenerate()) {
-      setShowPaywall(true);
-      return;
-    }
+      setError(null);
+      setBusyId(opts.styleId);
+      recordGeneration(opts.kind);
+      setTick((t) => t + 1);
 
-    setError(null);
-    setGenerating(true);
+      const id = `${Date.now()}`;
+      const url = buildHairTransformUrl(photo.public_id, prompt);
+      const look: GeneratedLook = { id, label: opts.label, prompt, url, status: 'pending' };
+      setResults((prev) => [look, ...prev]);
+      setActiveResult(id);
 
-    // One press = one generation credit, regardless of how many looks are queued.
-    recordGeneration();
-    setTick((t) => t + 1);
+      try {
+        await warmTransform(url);
+        setResults((prev) =>
+          prev.map((r) => (r.id === id ? { ...r, status: 'done' } : r))
+        );
+        const record: LookRecord = {
+          id,
+          label: opts.label,
+          prompt,
+          beforeUrl,
+          afterUrl: url,
+          createdAt: new Date().toISOString(),
+        };
+        onHistoryChange(addToHistory(record));
+      } catch (e) {
+        setResults((prev) =>
+          prev.map((r) =>
+            r.id === id
+              ? { ...r, status: 'error', error: e instanceof Error ? e.message : 'Failed' }
+              : r
+          )
+        );
+      } finally {
+        setBusyId(null);
+      }
+    },
+    [photo, beforeUrl, onHistoryChange]
+  );
 
-    const pending: GeneratedLook[] = queue.map((q, i) => ({
-      id: `${Date.now()}-${i}`,
-      label: q.label,
-      prompt: q.prompt,
-      url: buildHairTransformUrl(photo.public_id, q.prompt),
-      status: 'pending',
-    }));
-    setResults(pending);
-    setActiveResult(pending[0].id);
+  const generateCustom = () =>
+    generateLook({ kind: 'prompt', label: 'Custom look', prompt: customPrompt, styleId: 'custom' });
 
-    await Promise.all(
-      pending.map(async (look) => {
-        try {
-          await warmTransform(look.url);
-          setResults((prev) =>
-            prev.map((r) => (r.id === look.id ? { ...r, status: 'done' } : r))
-          );
-          const record: LookRecord = {
-            id: look.id,
-            label: look.label,
-            prompt: look.prompt,
-            beforeUrl: beforeUrl!,
-            afterUrl: look.url,
-            createdAt: new Date().toISOString(),
-          };
-          onHistoryChange(addToHistory(record));
-        } catch (e) {
-          setResults((prev) =>
-            prev.map((r) =>
-              r.id === look.id
-                ? { ...r, status: 'error', error: e instanceof Error ? e.message : 'Failed' }
-                : r
-            )
-          );
-        }
-      })
-    );
-    setGenerating(false);
-  };
+  const tryPreset = (style: Hairstyle) =>
+    generateLook({
+      kind: 'preset',
+      label: style.name,
+      prompt: style.genPrompt,
+      styleId: style.id,
+    });
 
   const active = results.find((r) => r.id === activeResult) ?? results[0] ?? null;
 
@@ -147,22 +148,34 @@ export function Studio({ onHistoryChange }: Props) {
     }
   };
 
-  // Close the paywall automatically if the user becomes unlimited
+  // Close the paywall automatically if the user becomes unlimited.
   useEffect(() => {
     if (showPaywall && hasUnlimited()) setShowPaywall(false);
   }, [showPaywall]);
+
+  const unlimited = hasUnlimited();
+  const presetLocked = !unlimited && freePresetRemaining() === 0;
+  const promptLocked = !unlimited && freePromptRemaining() === 0;
+
+  const creditLine = unlimited
+    ? isDevMode() && !hasPaid()
+      ? 'Dev mode on · unlimited looks'
+      : 'Studio member · unlimited looks'
+    : `${freePromptRemaining()} free custom look + ${freePresetRemaining()} free preset remaining · unlimited for $1.99`;
 
   return (
     <section className="studio" id="studio">
       <div className="studio-header">
         <span className="eyebrow">The Studio</span>
-        <h2>Three steps to your next look</h2>
-        <p className="studio-credits">
-          {hasUnlimited()
-            ? 'Studio member · unlimited looks'
-            : `${freeCreditsRemaining()} free generation left · unlimited for $1.99`}
-        </p>
+        <h2>Build your look, then see it</h2>
+        <p className="studio-credits">{creditLine}</p>
       </div>
+
+      {devJustUnlocked && (
+        <div className="banner banner-success">
+          Dev mode unlocked. Generate as many looks as you like on this device.
+        </div>
+      )}
 
       <div className="studio-steps">
         {/* STEP 1: PHOTO */}
@@ -183,50 +196,40 @@ export function Studio({ onHistoryChange }: Props) {
           )}
         </div>
 
-        {/* STEP 2: LOOKS */}
-        <div className="studio-step">
+        {/* STEP 2: BUILD YOUR OWN — the main event */}
+        <div className="studio-step studio-step-feature">
           <h3 className="step-title">
-            <span className="step-no">II</span> Pick up to {MAX_LOOKS} looks
+            <span className="step-no">II</span> Build your own look
           </h3>
-          <LooksLibrary
-            selectedIds={selected.map((s) => s.id)}
-            onToggle={toggleLook}
-            maxSelectable={MAX_LOOKS - (customPrompt ? 1 : 0)}
-          />
-          <details className="builder-details">
-            <summary>Or build your own look</summary>
-            <PromptBuilder onPromptChange={setCustomPrompt} />
-          </details>
-        </div>
-
-        {/* STEP 3: GENERATE */}
-        <div className="studio-step">
-          <h3 className="step-title">
-            <span className="step-no">III</span> See it
-          </h3>
-          <div className="queue-summary">
-            {queue.length > 0 ? (
-              queue.map((q) => (
-                <span key={q.label} className="queue-pill">
-                  {q.label}
-                </span>
-              ))
-            ) : (
-              <span className="queue-empty">Nothing queued yet</span>
-            )}
-          </div>
+          <p className="step-lead">
+            This is the heart of Hairrison. Describe anything and we'll render it onto
+            your photo. The presets below are just here to spark ideas.
+          </p>
+          <PromptBuilder onPromptChange={setCustomPrompt} />
           <button
             className="btn btn-primary btn-generate"
-            onClick={generate}
-            disabled={generating}
+            onClick={generateCustom}
+            disabled={busyId !== null}
           >
-            {generating
+            {busyId === 'custom'
               ? 'Generating… (15–60s)'
-              : queue.length > 1
-                ? `Generate ${queue.length} looks`
+              : promptLocked
+                ? 'Generate my look · $1.99'
                 : 'Generate my look'}
           </button>
           {error && <p className="error-text">{error}</p>}
+        </div>
+
+        {/* STEP 3: PRESETS — inspiration gallery */}
+        <div className="studio-step">
+          <h3 className="step-title">
+            <span className="step-no">III</span> Or get inspired
+          </h3>
+          <p className="step-lead">
+            Browse real looks for women and men, filter by length and texture, then tap to
+            try one on. Your first preset is free.
+          </p>
+          <LooksLibrary onTry={tryPreset} busyId={busyId} locked={presetLocked} />
         </div>
       </div>
 
@@ -270,8 +273,8 @@ export function Studio({ onHistoryChange }: Props) {
 
       {showPaywall && (
         <Paywall
-          freeRemaining={freeCreditsRemaining()}
-          unlimited={hasUnlimited()}
+          freeRemaining={freePromptRemaining() + freePresetRemaining()}
+          unlimited={unlimited}
           asModal
           onClose={() => setShowPaywall(false)}
         />
