@@ -1,3 +1,5 @@
+import { Logo } from './Logo';
+
 interface HeroProps {
   onStart: () => void;
 }
@@ -5,6 +7,7 @@ interface HeroProps {
 export function Hero({ onStart }: HeroProps) {
   return (
     <header className="hero">
+      <Logo size={72} className="hero-logo" />
       <p className="hero-eyebrow">Hairrison Studio · est. 2026</p>
       <h1 className="hero-title">
         Try the haircut
@@ -31,6 +34,7 @@ export function Hero({ onStart }: HeroProps) {
 export function Footer() {
   return (
     <footer className="footer">
+      <Logo size={36} className="footer-logo" />
       <p>
         Hairrison Studio, built by William Chenyin. Engine: Cloudinary Generative Replace.
         Payments: Stripe. Support: chenyinwilliam@gmail.com

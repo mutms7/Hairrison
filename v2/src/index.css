@@ -143,6 +143,16 @@ h3 {
   text-align: center;
 }
 
+.hero-logo {
+  display: block;
+  margin: 0 auto 22px;
+}
+
+.footer-logo {
+  display: block;
+  margin: 0 auto 14px;
+}
+
 .hero-title {
   font-size: clamp(2.8rem, 8vw, 5.4rem);
   margin: 26px 0 22px;
@@ -905,16 +915,21 @@ h3 {
 }
 
 /* ── Barbershop side poles ───────────────────────────────────
-   Fixed red/white/blue diagonal stripes hug both screen edges and
-   fade fast into black before they reach the content column. The
-   content sits on its own opaque black panel above them, so the
-   poles only ever show in the gutters and never bleed behind text.
-   On narrow screens the content fills the width and the poles
-   simply tuck out of sight. */
+   Red/white/blue diagonal stripes hug both page edges and fade
+   fast into black before they reach the content column. They're a
+   layer on the page (absolute, full document height), so they
+   scroll along with everything else. The content sits on its own
+   opaque black panel above them, so the poles only ever show in
+   the gutters and never bleed behind text. On narrow screens the
+   content fills the width and the poles simply tuck out of sight. */
+body {
+  position: relative;
+}
+
 body::before,
 body::after {
   content: '';
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   width: clamp(54px, 13vw, 200px);
@@ -930,10 +945,10 @@ body::before {
     linear-gradient(to right, transparent 0%, var(--espresso-0) 70%),
     repeating-linear-gradient(
       45deg,
-      var(--red) 0 22px,
-      var(--white) 22px 44px,
-      var(--blue) 44px 66px,
-      var(--white) 66px 88px
+      var(--red) 0 31px,
+      var(--white) 31px 62px,
+      var(--blue) 62px 93px,
+      var(--white) 93px 124px
     );
 }
 
@@ -943,10 +958,10 @@ body::after {
     linear-gradient(to left, transparent 0%, var(--espresso-0) 70%),
     repeating-linear-gradient(
       -45deg,
-      var(--red) 0 22px,
-      var(--white) 22px 44px,
-      var(--blue) 44px 66px,
-      var(--white) 66px 88px
+      var(--red) 0 31px,
+      var(--white) 31px 62px,
+      var(--blue) 62px 93px,
+      var(--white) 93px 124px
     );
 }
 
